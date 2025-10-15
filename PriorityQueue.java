@@ -1,13 +1,16 @@
 public class PriorityQueue {
 
     public final int CRITICAL = 0;
-    public final int SERIOUS  = 1;
-    public final int FAIR     = 2;
+    public final int SERIOUS = 1;
+    public final int FAIR = 2;
+
+    private String[] priorityLevels = { "CRITICAL", "SERIOUS", "FAIR" };
 
     private static class Patient {
         String name;
-        int priority;    // 0 (Critical), 1 (Serious), 2 (Fair)
+        int priority; // 0 (Critical), 1 (Serious), 2 (Fair)
         Patient next;
+
         Patient(String name, int priority) {
             this.name = name;
             this.priority = priority;
@@ -17,13 +20,18 @@ public class PriorityQueue {
     private Patient head;
     private int size = 0;
 
-    public boolean isEmpty() { return head == null; }
-    public int size() { return size; }
+    public boolean isEmpty() {
+        return head == null;
+    }
+
+    public int size() {
+        return size;
+    }
 
     public void addPatient(String name, int priority) {
         Patient newNode = new Patient(name, priority);
 
-        if (head == null) {                 
+        if (head == null) {
             head = newNode;
         } else if (priority < head.priority) {
             newNode.next = head;
@@ -46,20 +54,22 @@ public class PriorityQueue {
     }
 
     public String serveNextPatient() {
-        if (head == null) return "No patients to serve.";
+        if (head == null)
+            return "No patients to serve.";
         String name = head.name;
+        int priority = head.priority;
         head = head.next;
         size--;
-        return name;
+        return name + " (" + priorityLevels[priority] + ")";
     }
 
     public String nextPatientInQueue() {
-        return head == null ? null : head.name;
+        return head == null ? null : head.name + " (" + priorityLevels[head.priority] + ")";
     }
 
     public int patientsWaitingList() {
         int numOfPatients = 0;
-        if(isEmpty()) {
+        if (isEmpty()) {
             System.out.println("No patients waiting");
             return 0;
         }
@@ -70,6 +80,5 @@ public class PriorityQueue {
         }
         return numOfPatients;
     }
-
 
 }
